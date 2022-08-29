@@ -20,7 +20,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(task, index) in tasks">
+				<tr v-for="(task, index) in tasks" :key="index">
 					<td>{{ task.name }}</td>
 					<td>
 						<input type="checkbox" v-model="task.done" />
@@ -61,6 +61,10 @@ export default {
 				{
 					name: 'タスク１',
 					done: false,
+				},
+				{
+					name: 'タスク2',
+					done: true,
 				},
 			],
 		};
