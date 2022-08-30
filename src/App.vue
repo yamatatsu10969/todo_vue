@@ -7,7 +7,7 @@
 		<div class="d-flex justify-content-end">
 			<input v-model="task" type="text" class="form-control" placeholder="タスクを入力してください" />
 			<div class="ms-3"></div>
-			<button @click="submitTask" class="btn btn-primary">追加</button>
+			<button @click="submitTask" class="btn btn-primary primaryButton">追加</button>
 		</div>
 
 		<table class="table mt-5">
@@ -151,5 +151,8 @@ export default {
 }
 .icon {
 	width: 48px;
+}
+.primaryButton {
+	width: 64px;
 }
 </style>
