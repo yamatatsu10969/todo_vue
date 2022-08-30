@@ -24,11 +24,13 @@
 					<td>
 						<span :class="{ completed: task.completed }">{{ task.name }}</span>
 					</td>
-					<td>
-						<input type="checkbox" v-model="task.completed" />
+					<td class="icon">
+						<div class="text-center">
+							<input type="checkbox" v-model="task.completed" />
+						</div>
 					</td>
-					<td>
-						<div>
+					<td class="icon">
+						<div class="text-center">
 							<div @click="editTask(index)">
 								<div :class="{ editing: isTaskEditingById(index) }">
 									<span class="fa fa-pen pointer"></span>
@@ -36,8 +38,8 @@
 							</div>
 						</div>
 					</td>
-					<td>
-						<div>
+					<td class="icon">
+						<div class="text-center">
 							<div @click="deleteTask(index)">
 								<span class="fa fa-trash pointer"></span>
 							</div>
@@ -146,5 +148,8 @@ export default {
 }
 .completed {
 	text-decoration: line-through;
+}
+.icon {
+	width: 48px;
 }
 </style>
