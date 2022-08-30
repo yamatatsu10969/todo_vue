@@ -75,12 +75,6 @@ export default {
 		editing() {
 			return this.editingTaskIndex !== null;
 		},
-		completedTasks() {
-			return this.tasks.filter((task) => task.completed);
-		},
-		uncompletedTasks() {
-			return this.tasks.filter((task) => !task.completed);
-		},
 	},
 
 	methods: {
