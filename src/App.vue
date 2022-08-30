@@ -57,22 +57,20 @@ export default {
 		return {
 			task: '',
 			editingTaskIndex: null,
-			tasks: [
-				{
-					name: 'タスク1',
-					completed: true,
-				},
-				{
-					name: 'タスク2',
-					completed: false,
-				},
-				{
-					name: 'タスク3',
-					completed: false,
-				},
-			],
+			tasks: [],
 		};
 	},
+
+	mounted() {
+		if (localStorage.getItem('tasks')) {
+			try {
+				this.tasks = JSON.parse(localStorage.getItem('tasks'));
+			} catch (e) {
+				localStorage.removeItem('tasks');
+			}
+		}
+	},
+
 	computed: {
 		editing() {
 			return this.editingTaskIndex !== null;
@@ -101,11 +99,13 @@ export default {
 				name: this.task,
 				completed: false,
 			});
+			this.saveTasks();
 		},
 
 		updateTask() {
 			this.tasks[this.editingTaskIndex].name = this.task;
 			this.editingTaskIndex = null;
+			this.saveTasks();
 		},
 
 		deleteTask(index) {
@@ -114,6 +114,7 @@ export default {
 				return;
 			}
 			this.tasks.splice(index, 1);
+			this.saveTasks();
 		},
 
 		editTask(index) {
@@ -124,6 +125,11 @@ export default {
 				this.editingTaskIndex = index;
 				this.task = this.tasks[index].name;
 			}
+		},
+
+		saveTasks() {
+			const parsed = JSON.stringify(this.tasks);
+			localStorage.setItem('tasks', parsed);
 		},
 	},
 };
