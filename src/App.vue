@@ -30,8 +30,9 @@
 					<td>
 						<div>
 							<div @click="editTask(index)">
-								<div :class="{ editing: this.editingTaskIndex === index }"></div>
-								<span class="fa fa-pen pointer"></span>
+								<div :class="{ editing: isTaskEditingById(index) }">
+									<span class="fa fa-pen pointer"></span>
+								</div>
 							</div>
 						</div>
 					</td>
@@ -70,8 +71,22 @@ export default {
 			],
 		};
 	},
+	computed: {
+		editing() {
+			return this.editingTaskIndex !== null;
+		},
+		completedTasks() {
+			return this.tasks.filter((task) => task.completed);
+		},
+		uncompletedTasks() {
+			return this.tasks.filter((task) => !task.completed);
+		},
+	},
 
 	methods: {
+		isTaskEditingById(index) {
+			return this.editingTaskIndex === index;
+		},
 		submitTask() {
 			if (this.task.length === 0) return;
 
@@ -100,8 +115,13 @@ export default {
 		},
 
 		editTask(index) {
-			this.editingTaskIndex = index;
-			this.task = this.tasks[index].name;
+			if (this.isTaskEditingById(index)) {
+				this.editingTaskIndex = null;
+				this.task = '';
+			} else {
+				this.editingTaskIndex = index;
+				this.task = this.tasks[index].name;
+			}
 		},
 	},
 };
