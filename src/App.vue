@@ -5,7 +5,7 @@
       <h2 class="title">Todo App</h2>
     </div>
     <div class="d-flex justify-content-end">
-      <input v-model="task" type="text" class="form-control" placeholder="タスクを入力してください" />
+      <input v-model="taskName" type="text" class="form-control" placeholder="タスクを入力してください" />
       <div class="ms-3"></div>
       <button @click="submitTask" class="btn btn-primary primaryButton">
         {{ editing ? "保存" : "追加" }}
@@ -57,7 +57,7 @@
 export default {
   data() {
     return {
-      task: "",
+      taskName: "",
       editingTaskIndex: null,
       tasks: [],
     };
@@ -84,22 +84,22 @@ export default {
       return this.editingTaskIndex === index;
     },
     submitTask() {
-      if (this.task.length === 0) return;
+      if (this.taskName.length === 0) return;
 
       this.editingTaskIndex === null ? this.addTask() : this.updateTask();
-      this.task = "";
+      this.taskName = "";
     },
 
     addTask() {
       this.tasks.push({
-        name: this.task,
+        name: this.taskName,
         completed: false,
       });
       this.saveTasks();
     },
 
     updateTask() {
-      this.tasks[this.editingTaskIndex].name = this.task;
+      this.tasks[this.editingTaskIndex].name = this.taskName;
       this.editingTaskIndex = null;
       this.saveTasks();
     },
@@ -116,10 +116,10 @@ export default {
     editTask(index) {
       if (this.isTaskEditingById(index)) {
         this.editingTaskIndex = null;
-        this.task = "";
+        this.taskName = "";
       } else {
         this.editingTaskIndex = index;
-        this.task = this.tasks[index].name;
+        this.taskName = this.tasks[index].name;
       }
     },
 
