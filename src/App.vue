@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       taskName: "",
-      editingTaskIndex: null,
+      editingTaskIndex: undefined,
       tasks: [],
     };
   },
@@ -75,7 +75,7 @@ export default {
 
   computed: {
     editing() {
-      return this.editingTaskIndex !== null;
+      return this.editingTaskIndex !== undefined;
     },
   },
 
@@ -86,7 +86,7 @@ export default {
     submitTask() {
       if (this.taskName.length === 0) return;
 
-      this.editingTaskIndex === null ? this.addTask() : this.updateTask();
+      this.editingTaskIndex === undefined ? this.addTask() : this.updateTask();
       this.taskName = "";
     },
 
@@ -100,12 +100,12 @@ export default {
 
     updateTask() {
       this.tasks[this.editingTaskIndex].name = this.taskName;
-      this.editingTaskIndex = null;
+      this.editingTaskIndex = undefined;
       this.saveTasks();
     },
 
     deleteTask(index) {
-      if (this.editingTaskIndex !== null) {
+      if (this.editingTaskIndex !== undefined) {
         alert("編集中は削除できません");
         return;
       }
@@ -115,7 +115,7 @@ export default {
 
     editTask(index) {
       if (this.isTaskEditingById(index)) {
-        this.editingTaskIndex = null;
+        this.editingTaskIndex = undefined;
         this.taskName = "";
       } else {
         this.editingTaskIndex = index;
