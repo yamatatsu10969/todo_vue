@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(task, index) in tasks" :key="index">
+        <tr v-for="task in tasks" :key="task.id">
           <td>
             <span :class="{ completed: task.completed }">{{ task.name }}</span>
           </td>
@@ -33,8 +33,8 @@
           </td>
           <td class="icon">
             <div class="text-center">
-              <div @click="editTask(index)">
-                <div :class="{ editing: isTaskEditingById(index) }">
+              <div @click="editTask(task.id)">
+                <div :class="{ editing: isTaskEditing(task.id) }">
                   <span class="fa fa-pen pointer"></span>
                 </div>
               </div>
@@ -42,7 +42,7 @@
           </td>
           <td class="icon">
             <div class="text-center">
-              <div @click="deleteTask(index)">
+              <div @click="deleteTask(task.id)">
                 <span class="fa fa-trash pointer"></span>
               </div>
             </div>
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       taskName: "",
-      editingTaskIndex: undefined,
+      editingTaskId: undefined,
       tasks: [],
     };
   },
@@ -75,18 +75,18 @@ export default {
 
   computed: {
     editing() {
-      return this.editingTaskIndex !== undefined;
+      return this.editingTaskId !== undefined;
     },
   },
 
   methods: {
-    isTaskEditingById(index) {
-      return this.editingTaskIndex === index;
+    isTaskEditing(id) {
+      return this.editingTaskId === id;
     },
     submitTask() {
       if (this.taskName.length === 0) return;
 
-      this.editingTaskIndex === undefined ? this.addTask() : this.updateTask();
+      this.editingTaskId === undefined ? this.addTask() : this.updateTask();
       this.taskName = "";
     },
 
@@ -94,32 +94,34 @@ export default {
       this.tasks.push({
         name: this.taskName,
         completed: false,
+        id: new Date().getTime(),
       });
       this.saveTasks();
     },
 
     updateTask() {
-      this.tasks[this.editingTaskIndex].name = this.taskName;
-      this.editingTaskIndex = undefined;
+      this.tasks.filter((task) => task.id === this.editingTaskId)[0].name = this.taskName;
+      this.editingTaskId = undefined;
       this.saveTasks();
     },
 
-    deleteTask(index) {
-      if (this.editingTaskIndex !== undefined) {
+    deleteTask(id) {
+      if (this.editingTaskId !== undefined) {
         alert("編集中は削除できません");
         return;
       }
-      this.tasks.splice(index, 1);
+
+      this.tasks = this.tasks.filter((task) => task.id !== id);
       this.saveTasks();
     },
 
-    editTask(index) {
-      if (this.isTaskEditingById(index)) {
-        this.editingTaskIndex = undefined;
+    editTask(id) {
+      if (this.isTaskEditing(id)) {
+        this.editingTaskId = undefined;
         this.taskName = "";
       } else {
-        this.editingTaskIndex = index;
-        this.taskName = this.tasks[index].name;
+        this.editingTaskId = id;
+        this.taskName = this.tasks.filter((task) => task.id === id)[0].name;
       }
     },
 
