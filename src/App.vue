@@ -8,7 +8,7 @@
       <input v-model="taskName" type="text" class="form-control" placeholder="タスクを入力してください" />
       <div class="ms-3"></div>
       <button @click="submitTask" class="btn btn-primary primaryButton">
-        {{ editing ? "保存" : "追加" }}
+        {{ submitLabel }}
       </button>
     </div>
 
@@ -76,6 +76,9 @@ export default {
   computed: {
     editing() {
       return this.editingTaskId !== undefined;
+    },
+    submitLabel() {
+      return this.editing ? "保存" : "追加";
     },
   },
 
