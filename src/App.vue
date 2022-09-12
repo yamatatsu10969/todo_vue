@@ -100,7 +100,7 @@ export default {
     },
 
     updateTask() {
-      this.tasks.filter((task) => task.id === this.editingTaskId)[0].name = this.taskName;
+      this.tasks.filter((task) => this.isTaskEditing(task.id))[0].name = this.taskName;
       this.editingTaskId = undefined;
       this.saveTasks();
     },
