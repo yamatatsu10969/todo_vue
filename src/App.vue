@@ -86,7 +86,7 @@ export default {
     submitTask() {
       if (this.taskName.length === 0) return;
 
-      this.editingTaskId === undefined ? this.addTask() : this.updateTask();
+      this.editing ? this.updateTask() : this.addTask();
       this.taskName = "";
     },
 
@@ -106,7 +106,7 @@ export default {
     },
 
     deleteTask(id) {
-      if (this.editingTaskId !== undefined) {
+      if (this.editing) {
         alert("編集中は削除できません");
         return;
       }
