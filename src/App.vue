@@ -34,7 +34,7 @@
           <td class="icon">
             <div class="text-center">
               <div @click="editTask(task.id)">
-                <div :class="{ editing: isTaskEditing(task.id) }">
+                <div :class="{ editing: isEditingTaskBy(task.id) }">
                   <span class="fa fa-pen pointer"></span>
                 </div>
               </div>
@@ -74,22 +74,22 @@ export default {
   },
 
   computed: {
-    editing() {
+    isEditingMode() {
       return this.editingTaskId !== undefined;
     },
     submitLabel() {
-      return this.editing ? "保存" : "追加";
+      return this.isEditingMode ? "保存" : "追加";
     },
   },
 
   methods: {
-    isTaskEditing(id) {
+    isEditingTaskBy(id) {
       return this.editingTaskId === id;
     },
     submitTask() {
       if (this.taskName.length === 0) return;
 
-      this.editing ? this.updateTask() : this.addTask();
+      this.isEditingMode ? this.updateTask() : this.addTask();
       this.taskName = "";
     },
 
@@ -103,13 +103,13 @@ export default {
     },
 
     updateTask() {
-      this.tasks.filter((task) => this.isTaskEditing(task.id))[0].name = this.taskName;
+      this.tasks.filter((task) => this.isEditingTaskBy(task.id))[0].name = this.taskName;
       this.editingTaskId = undefined;
       this.saveTasks();
     },
 
     deleteTask(id) {
-      if (this.editing) {
+      if (this.isEditingMode) {
         alert("編集中は削除できません");
         return;
       }
@@ -119,7 +119,7 @@ export default {
     },
 
     editTask(id) {
-      if (this.isTaskEditing(id)) {
+      if (this.isEditingTaskBy(id)) {
         this.editingTaskId = undefined;
         this.taskName = "";
       } else {
